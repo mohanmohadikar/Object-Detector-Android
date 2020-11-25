@@ -89,7 +89,7 @@
                 android:layout_height="27dp"
                 android:gravity="bottom"
                 android:id="@+id/btnSwitch"
-                android:src="@drawable/revcamera"
+                android:src="@drawable/revcam"
                 android:layout_marginLeft="0dp"
                 android:layout_gravity="end"
                 android:layout_marginBottom="20dp"
