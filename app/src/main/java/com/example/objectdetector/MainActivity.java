@@ -1,8 +1,16 @@
 package com.example.objectdetector;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,16 +40,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
-    private AppCompatButton signIn;
+  //  private FirebaseAuth mAuth;
+   // private GoogleSignInClient mGoogleSignInClient;
+    private Button signIn;
     private int RC_SIGN_IN = 1;
     private String TAG = "nothing...";
     public static final int REQUEST_PERMISSION = 300;
 
-    GoogleSignInAccount acct;
-    FirebaseUser user;
+   // GoogleSignInAccount acct;
+   // FirebaseUser user;
 
+   // https://www.flaticon.com/free-icon/face-detection_1177931
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        signIn = (AppCompatButton) findViewById(R.id.sign_in_button);
+        signIn = (Button) findViewById(R.id.sign_in_button);
 
         // Initialize Firebase Auth
         // mAuth = FirebaseAuth.getInstance();
@@ -105,12 +114,12 @@ public class MainActivity extends AppCompatActivity {
     private void signIn() {
         //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         //startActivityForResult(signInIntent, RC_SIGN_IN);
-        Intent intent = new Intent(MainActivity.this, TakeImage.class);
+        Intent intent = new Intent(MainActivity.this, CameraActivity.class);
         startActivity(intent);
         finish();
     }
 
-
+/*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -186,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+ */
 
 
     public static boolean hasPermissions(Context context, String... permissions) {

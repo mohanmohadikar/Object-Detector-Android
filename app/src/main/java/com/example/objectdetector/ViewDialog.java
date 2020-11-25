@@ -1,5 +1,16 @@
 package com.example.objectdetector;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.io.IOException;
+
 public class ViewDialog {
 
 

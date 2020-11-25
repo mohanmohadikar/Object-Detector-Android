@@ -1,8 +1,49 @@
 package com.example.objectdetector;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.hardware.Camera;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import org.tensorflow.lite.Interpreter;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -60,9 +101,7 @@ public class CameraActivity extends AppCompatActivity {
     public String filename = "log.txt";
 
 
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
-    String storageNode;
+
 
     Bitmap b3,b4,b5;
 
@@ -102,7 +141,6 @@ public class CameraActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_GALLERY = 2;
     // String storageNode;
     public static String userAccount;
-    private GoogleSignInClient mGoogleSignInClient;
 
     Bitmap b2;
 
@@ -147,7 +185,7 @@ public class CameraActivity extends AppCompatActivity {
         // GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
 
         //  mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+/*
 
         //initiating the TFLite interpreter.
         try{
@@ -170,6 +208,8 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
+ */
+
 
         CameraSwitch();
         CameraSwitch();
@@ -184,7 +224,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-                pd = new ProgressDialog(TakeImage.this);
+                pd = new ProgressDialog(CameraActivity.this);
                 pd.setMessage("Please wait");
                 pd.setTitle("Predicting...");
                 pd.setCanceledOnTouchOutside(false);
@@ -308,7 +348,7 @@ public class CameraActivity extends AppCompatActivity {
 
                 b5 = Bitmap.createBitmap(b3, 0, 0, b3.getWidth(), b3.getHeight(), matrix, true);
 
-                Uri uri0 = getImageUri(TakeImage.this, b5);
+                Uri uri0 = getImageUri(CameraActivity.this, b5);
 
 
                 b5 = Bitmap.createBitmap(b3, 0, 0, b3.getWidth(), b3.getHeight(), matrix, true);
@@ -317,10 +357,10 @@ public class CameraActivity extends AppCompatActivity {
                 b5 = getResizedBitmap(b5, DIM_IMG_SIZE_X, DIM_IMG_SIZE_Y);
                 // saveImage(b5);
                 b4 = b5;
-                prediction = predict(uri);
+               // prediction = predict(uri);
 
                 ViewDialog alert = new ViewDialog();
-                alert.showDialog(this, prediction[0], prediction[1]+"%", uri0);
+                alert.showDialog(this, "prediction[0]", "prediction[1]"+"%", uri0);
 
             }
         }
@@ -366,36 +406,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-    private void uploadFile(Uri uri){
 
-
-        Uri file = uri;
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-        StorageReference ref = mStorageRef.child("/" + predictLabel.charAt(0)+ Calendar.getInstance().getTimeInMillis() +".jpeg");
-        System.out.println(predictLabel);
-
-
-
-        ref.putFile(getImageUri(this,getResizedBitmap(bitmap,480,480)))
-                .addOnSuccessListener(taskSnapshot ->
-                        Toast.makeText(this, "This image has been uploaded for further analysis", Toast.LENGTH_LONG).show())
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-
-                        Toast.makeText(TakeImage.this, exception.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
 
 
 
@@ -432,10 +443,10 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
         return Uri.parse(path);
     }
 
@@ -549,16 +560,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        updateUI();
-                    }
-                });
-    }
+
 
     private void updateUI() {
         Intent intent = new Intent(this, MainActivity.class);
@@ -687,22 +689,22 @@ public class CameraActivity extends AppCompatActivity {
             public void onPictureTaken(byte[] data, Camera camera) {
                 bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-                Uri uri = getImageUri(TakeImage.this, bitmap);
+                Uri uri = getImageUri(CameraActivity.this, bitmap);
 
 
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-                Uri uri0 = getImageUri(TakeImage.this, bitmap);
+                Uri uri0 = getImageUri(CameraActivity.this, bitmap);
 
                 b5 = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
                 b5 = getResizedBitmap(b5, DIM_IMG_SIZE_X, DIM_IMG_SIZE_Y);
                 //  saveImage(b5);
                 b4 = b5;
-                prediction = predict(uri);
+               // prediction = predict(uri);
 
                 ViewDialog alert = new ViewDialog();
-                alert.showDialog(TakeImage.this, prediction[0], prediction[1]+"%", uri0);
+                alert.showDialog(CameraActivity.this, "prediction[0]", "prediction[1]"+"%", uri0);
                 pd.dismiss();
                 mCamera.startPreview();
             }
