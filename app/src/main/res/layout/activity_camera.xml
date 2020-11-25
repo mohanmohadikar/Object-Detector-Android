@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.objectdetector.CameraActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/cPreview"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="#ffffff"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=" WASTE "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=" Segregation "
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:id="@+id/camlin"
+            android:gravity="bottom|center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+
+                android:id="@+id/btnCam"
+                android:textSize="15sp"
+                android:src="@drawable/click"
+                android:text="Take Photo"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:id="@+id/revlin"
+            android:gravity="bottom|center"
+            android:layout_marginLeft="80dp"
+            android:layout_toRightOf="@id/camlin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:gravity="bottom"
+                android:id="@+id/btnSwitch"
+                android:src="@drawable/revcamera"
+                android:layout_marginLeft="0dp"
+                android:layout_gravity="end"
+                android:layout_marginBottom="20dp"
+                android:textSize="15sp"
+                android:text="Switch"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="bottom|center"
+            android:layout_marginRight="80dp"
+            android:layout_toLeftOf="@id/camlin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:id="@+id/selGal"
+                android:src="@drawable/selected"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="20dp"
+                android:textSize="15sp"
+                android:text="Select"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="bottom|center"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@id/camlin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:id="@+id/flashOn"
+                android:src="@drawable/flashon"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="25dp"
+                android:textSize="15sp"
+                android:text="Select"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="bottom|center"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@id/camlin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:visibility="invisible"
+                android:id="@+id/flashOff"
+                android:src="@drawable/flashoff"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="25dp"
+                android:textSize="15sp"
+                android:text="Select"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
